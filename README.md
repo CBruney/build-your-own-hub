@@ -4,9 +4,9 @@ A personal dashboard and automation starter, adapted from Craig's Hub.
 
 **Start with your choices.** Keep the parts that help you, replace the parts that do not, and connect only your own accounts. You can use this kit with ChatGPT Work or Codex. The included application runs locally with fictional data and requires no API key, account, paid service, or package installation.
 
-[Shared context](SHARED-CONTEXT.md) · [Starting prompt](START-PROMPT.md) · [Visual guide (PDF)](output/pdf/Build-Your-Own-Hub-Guide.pdf) · [Screenshot tour](docs/screenshots/README.md)
+[Shared context](SHARED-CONTEXT.md) · [Starting prompt](START-PROMPT.md) · [Visual guide (PDF)](output/pdf/Build-Your-Own-Hub-Guide.pdf) · [Screenshot tour](docs/screenshots/README.md) · [Review questions and answers](verification/FRESH-REVIEW.md)
 
-**[Try the public fictional demo](https://cbruney.github.io/build-your-own-hub/)** · **[Download the complete v1.0.0 kit](https://github.com/CBruney/build-your-own-hub/releases/tag/v1.0.0)**
+**[Try the public fictional demo](https://cbruney.github.io/build-your-own-hub/)** · **[Download the complete v1.1.0 kit](https://github.com/CBruney/build-your-own-hub/releases/tag/v1.1.0)**
 
 ![The fictional Hub briefing on desktop](docs/screenshots/briefing-desktop.png)
 
@@ -35,6 +35,8 @@ A personal dashboard and automation starter, adapted from Craig's Hub.
 
 ## Read in the order you need
 
+New here? Begin with [the step-by-step first-use guide](docs/00-start-here.md). It covers downloading, attaching the context, opening a local project, and choosing your first version.
+
 | Your question | Guide |
 | --- | --- |
 | What should my Hub do? | [Product behavior and choices](docs/01-product-and-choices.md) |
@@ -44,6 +46,10 @@ A personal dashboard and automation starter, adapted from Craig's Hub.
 | How should scheduled work behave? | [Automation and reliability](docs/05-automations-and-reliability.md) |
 | How do I build and check my version? | [Build sequence and acceptance](docs/06-build-and-acceptance.md) |
 | What is safe to share? | [Sharing and provenance](docs/07-sharing-and-provenance.md) |
+| Which settings actually change the app? | [Preferences and decisions](docs/08-preferences-and-decisions.md) |
+| What exact data do I produce, store, and show? | [Data contract and runnable example](docs/09-data-contract-and-worked-example.md) |
+| How do I install, verify, and recover jobs? | [Installation and operations](docs/10-install-operate-and-recover.md) |
+| How do I update or repair my copy? | [Maintenance and common questions](docs/11-maintenance-and-common-questions.md) |
 
 ## What works now
 
@@ -61,4 +67,4 @@ No project license file is included, as requested by the creator. The bundled fo
 
 Run `npm test`, `npm run build`, and `npm run verify` after changes. The build refreshes the standalone demo and shared context from their source files. GitHub Actions runs the same checks on Node.js 22 and 24. The optional PDF generator, `python3 scripts/build-guide.py`, needs ReportLab and Pillow; those packages are not needed to use or build the application.
 
-Version 1.0.0. Prepared September 22, 2026. This is a personal project starter, not an official OpenAI product or supported integration bundle.
+Version 1.1.0. Prepared September 22, 2026. This is a personal project starter, not an official OpenAI product or supported integration bundle.

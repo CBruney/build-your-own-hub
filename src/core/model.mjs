@@ -24,9 +24,19 @@ const itemModules = [
   "radar",
   "meeting",
 ];
+const calendarDate = (value) => {
+  if (typeof value !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(value))
+    return false;
+  const date = new Date(`${value}T00:00:00Z`);
+  return Number.isFinite(+date) && date.toISOString().slice(0, 10) === value;
+};
 const timestamp = (value) =>
   typeof value === "string" &&
-  /^\d{4}-\d{2}-\d{2}T/.test(value) &&
+  /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{1,3})?(?:Z|[+-]\d{2}:\d{2})$/.test(
+    value,
+  ) &&
+  calendarDate(value.slice(0, 10)) &&
+  Number(value.slice(11, 13)) < 24 &&
   Number.isFinite(Date.parse(value));
 const text = (value, max = 20000) =>
   typeof value === "string" && value.length <= max;
@@ -124,6 +134,25 @@ export function validateSnapshot(input) {
       if (item[key] != null && !timestamp(item[key]))
         throw new Error("Invalid item timestamp.");
     if (
+      item.startsAt &&
+      item.endsAt &&
+      Date.parse(item.endsAt) <= Date.parse(item.startsAt)
+    )
+      throw new Error("Event end must follow its start.");
+    if (item.allDayStart != null || item.allDayEnd != null) {
+      if (
+        item.module !== "agenda" ||
+        !calendarDate(item.allDayStart) ||
+        !calendarDate(item.allDayEnd) ||
+        item.allDayEnd <= item.allDayStart ||
+        item.startsAt != null ||
+        item.endsAt != null
+      )
+        throw new Error(
+          "All-day events need a valid inclusive start and exclusive end date, without timed fields.",
+        );
+    }
+    if (
       item.observedAt &&
       Date.parse(item.observedAt) > Date.parse(input.generatedAt)
     )
@@ -160,13 +189,61 @@ export function localDate(iso, timeZone) {
   return `${read("year")}-${read("month")}-${read("day")}`;
 }
 
+export function agendaDate(item, timeZone) {
+  return (
+    item.allDayStart ||
+    (item.startsAt ? localDate(item.startsAt, timeZone) : null)
+  );
+}
+
+export function agendaOnDate(item, date, timeZone) {
+  if (item.allDayStart)
+    return item.allDayStart <= date && date < item.allDayEnd;
+  return item.startsAt ? localDate(item.startsAt, timeZone) === date : false;
+}
+
+// Presentation order is independent of collector or merge insertion order.
+export function sortAgenda(items, timeZone) {
+  return [...items].sort((a, b) => {
+    const da = agendaDate(a, timeZone) || "9999-99-99";
+    const db = agendaDate(b, timeZone) || "9999-99-99";
+    if (da !== db) return da < db ? -1 : 1;
+    const ta = a.allDayStart
+      ? -Infinity
+      : a.startsAt
+        ? Date.parse(a.startsAt)
+        : Infinity;
+    const tb = b.allDayStart
+      ? -Infinity
+      : b.startsAt
+        ? Date.parse(b.startsAt)
+        : Infinity;
+    if (ta !== tb) return ta < tb ? -1 : 1;
+    return a.id < b.id ? -1 : a.id > b.id ? 1 : 0;
+  });
+}
+
+export function retainModuleOrder(current, selected) {
+  const chosen = new Set(["briefing", ...selected]);
+  return [...new Set([...current, ...MODULES])].filter((m) => chosen.has(m));
+}
+
 export function mergeSnapshots(previous, candidate) {
   const before = validateSnapshot(previous),
     next = validateSnapshot(candidate);
   if (before.mode !== next.mode || before.timeZone !== next.timeZone)
     throw new Error("Cannot merge different modes or time zones.");
   const sources = new Map(before.sources.map((s) => [s.id, s]));
-  const items = new Map(before.items.map((i) => [i.id, i]));
+  // Pin retained item provenance before a source's next successful clock advances.
+  const items = new Map(
+    before.items.map((i) => [
+      i.id,
+      {
+        ...i,
+        observedAt: i.observedAt ?? sources.get(i.sourceId)?.observedAt ?? null,
+      },
+    ]),
+  );
   for (const s of next.sources) {
     const old = sources.get(s.id);
     if (
@@ -175,7 +252,10 @@ export function mergeSnapshots(previous, candidate) {
       Date.parse(s.observedAt) < Date.parse(old.observedAt)
     )
       throw new Error("Observation would move backwards.");
-    if (s.state === "not_connected") continue;
+    if (s.state === "not_connected") {
+      if (!old) sources.set(s.id, s);
+      continue;
+    }
     if (s.state === "unavailable") {
       sources.set(s.id, {
         ...s,

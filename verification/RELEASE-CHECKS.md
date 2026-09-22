@@ -1,4 +1,18 @@
-# Release checks — 1.0.0
+# Release checks — 1.1.0
+
+The revised starter passed 31 local Node.js tests, including the fictional adapter’s immutable save/readback, all-day date handling, strict timestamps, retained observation provenance, disconnected-source preservation, calendar ordering, and preference ordering. The package build and verifier passed. The working example produced a verified two-item JSON artifact without reading an account.
+
+The revised app was opened through the supported in-app browser on localhost. The saved adapter artifact imported successfully: its timed event and all-day event appeared with the original date and London time zone, and unrelated collections stayed empty. A 390-pixel viewport had a 390-pixel document width; the layout was inspected visually. Reload restored the original fictional demo, as documented. A separate preference import placed Sports before Look Ahead; changing the display name, saving, and reloading preserved that order. The final calendar screenshot confirms all-day entries appear first. A separate fictional test file exercised `connected` mode: the page showed Snapshot date, Snapshot agenda, no live connection, reload-clears-import, and current-clock stale health. This was a label test, not a real connection.
+
+The six-page 1.1.0 PDF was regenerated, rendered, and inspected on every page. The existing nine fictional screenshots remain applicable to the unchanged demo views; a tenth screenshot shows the calendar adapter output. These are responsive desktop-browser checks, not physical-device or screen-reader certification.
+
+See [the fresh-review record](FRESH-REVIEW.md) for the questions raised and their answers. Public CI and release-download results are recorded in the tagged release notes. The original 1.0.0 evidence below is preserved as historical evidence, not presented as a test of the changed code.
+
+No live source, schedule, send, home action, or connected production backend is included or tested by this starter. The direct `file://` browser-policy limitation recorded below still applies to this release session; the standalone bundle is tested through permitted HTTP/HTTPS serving.
+
+---
+
+## Preserved baseline — 1.0.0
 
 Prepared September 22, 2026. These checks describe the supplied starter. They do not certify anyone's future connected Hub.
 

@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "fictional": true,
+  "automationId": "agenda",
+  "runKey": "example-owner|agenda|2026-09-22T07:00:00Z",
+  "invocationKind": "manual_test",
+  "expectedSlot": null,
+  "startedAt": "2026-09-22T07:00:00Z",
+  "finishedAt": "2026-09-22T07:00:12Z",
+  "sourceCoverage": [{"sourceId": "calendar-personal", "state": "checked", "scope": "Chosen calendar and date window", "observedAt": "2026-09-22T07:00:08Z"}],
+  "candidateId": "example-candidate",
+  "publicationId": "example-private-object",
+  "readbackState": "verified",
+  "destinations": [{"kind": "private_snapshot", "state": "verified"}],
+  "outcome": "complete",
+  "errorClass": null,
+  "note": "Illustration only. These identifiers and timestamps are not proof of an actual run."
+}

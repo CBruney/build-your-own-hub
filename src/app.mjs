@@ -4,6 +4,10 @@ import {
   sourceHealth,
   safeUrl,
   localDate,
+  agendaDate,
+  agendaOnDate,
+  sortAgenda,
+  retainModuleOrder,
   visibleItems,
   validatePreferences,
 } from "./core/model.mjs";
@@ -143,7 +147,7 @@ function sourceNote() {
     : `Imported snapshot · No live connection${imported ? " · Reload clears import" : ""}`;
 }
 function agendaRow(item) {
-  return `<button class="agenda-row" data-open="${escape(item.id)}"><time>${escape(item.timeLabel || "Time unavailable")}</time><span class="person">${escape(item.person || "")}</span><span><strong>${escape(item.title)}</strong><small>${escape(item.meta || "")}</small></span></button>`;
+  return `<button class="agenda-row" data-open="${escape(item.id)}"><time>${escape(item.timeLabel || (item.allDayStart ? "All day" : "Time unavailable"))}</time><span class="person">${escape(item.person || "")}</span><span><strong>${escape(item.title)}</strong><small>${escape(item.meta || "")}</small></span></button>`;
 }
 function needCard(item) {
   return `<article class="need"><div class="need-title">${escape(item.title)}</div><p>${escape(item.summary)}</p><small>${escape(item.meta || "")}</small><div class="actions">${button("Review →", `data-open="${escape(item.id)}"`)}${button("Hide", `data-hide="${escape(item.id)}"`, "text-button hide")}</div></article>`;
@@ -165,13 +169,12 @@ function showBriefing() {
             localDate(i.publishedAt, snapshot.timeZone) === today,
         )
       : items(module);
-  const todayAgenda = items("agenda").filter(
-    (i) => !i.startsAt || localDate(i.startsAt, snapshot.timeZone) === today,
+  const agenda = sortAgenda(items("agenda"), snapshot.timeZone);
+  const todayAgenda = agenda.filter((i) =>
+    agendaOnDate(i, today, snapshot.timeZone),
   );
-  const ahead = items("agenda").find(
-    (i) => i.startsAt && localDate(i.startsAt, snapshot.timeZone) > today,
-  );
-  return `<div class="hero"><section><div class="eyebrow">${snapshot.mode === "demo" ? "EXAMPLE · " : ""}${escape(new Intl.DateTimeFormat("en-US", { timeZone: snapshot.timeZone, weekday: "long", month: "long", day: "numeric", year: "numeric" }).format(new Date(snapshot.generatedAt)))}</div><h1>Good morning,<br>${escape(state.preferences.displayName)}.</h1><div class="heading-rule"></div><header class="section-title"><h2>Today’s agenda</h2><small>${escape(snapshot.timeZone.split("/").pop().replaceAll("_", " "))}</small></header>${todayAgenda.length ? todayAgenda.map(agendaRow).join("") : '<div class="empty">No events in this snapshot.</div>'}${ahead ? `<div class="ahead"><div class="ahead-label">Looking ahead</div><p>${escape(ahead.timeLabel || "")} · ${escape(ahead.title)} <span class="help">${escape(ahead.meta || "")}</span></p></div>` : ""}</section><section class="needs"><header class="section-title"><h2>Needs you</h2><small>Decisions, not notifications</small></header>${items("needs").length ? items("needs").map(needCard).join("") : '<p class="empty">Nothing here needs a decision.</p>'}${hiddenControls()}</section></div>${state.preferences.modules.includes("radar") && feature ? `<section class="feature"><div><div class="eyebrow">A little room for something good</div><h3>${escape(feature.title)}</h3><p>${escape(feature.summary)}</p></div>${button("Explore the idea →", 'data-page="radar"')}</section>` : ""}<div class="tiles">${[
+  const ahead = agenda.find((i) => agendaDate(i, snapshot.timeZone) > today);
+  return `<div class="hero"><section><div class="eyebrow">${snapshot.mode === "demo" ? "EXAMPLE · " : "SNAPSHOT DATE · "}${escape(new Intl.DateTimeFormat("en-US", { timeZone: snapshot.timeZone, weekday: "long", month: "long", day: "numeric", year: "numeric" }).format(new Date(snapshot.generatedAt)))}</div><h1>${snapshot.mode === "demo" ? "Good morning," : "Your snapshot,"}<br>${escape(state.preferences.displayName)}.</h1><div class="heading-rule"></div><header class="section-title"><h2>${snapshot.mode === "demo" ? "Today’s agenda" : "Snapshot agenda"}</h2><small>${escape(snapshot.timeZone.split("/").pop().replaceAll("_", " "))}</small></header>${todayAgenda.length ? todayAgenda.map(agendaRow).join("") : '<div class="empty">No events in this snapshot.</div>'}${ahead ? `<div class="ahead"><div class="ahead-label">Looking ahead</div><p>${escape(ahead.timeLabel || "")} · ${escape(ahead.title)} <span class="help">${escape(ahead.meta || "")}</span></p></div>` : ""}</section><section class="needs"><header class="section-title"><h2>Needs you</h2><small>Decisions, not notifications</small></header>${items("needs").length ? items("needs").map(needCard).join("") : '<p class="empty">Nothing here needs a decision.</p>'}${hiddenControls()}</section></div>${state.preferences.modules.includes("radar") && feature ? `<section class="feature"><div><div class="eyebrow">A little room for something good</div><h3>${escape(feature.title)}</h3><p>${escape(feature.summary)}</p></div>${button("Explore the idea →", 'data-page="radar"')}</section>` : ""}<div class="tiles">${[
     "messages",
     "deliveries",
     "newsletters",
@@ -186,10 +189,8 @@ function showBriefing() {
 }
 function showAgenda() {
   const groups = new Map();
-  for (const i of items("agenda")) {
-    const key = i.startsAt
-      ? localDate(i.startsAt, snapshot.timeZone)
-      : "Date unavailable";
+  for (const i of sortAgenda(items("agenda"), snapshot.timeZone)) {
+    const key = agendaDate(i, snapshot.timeZone) || "Date unavailable";
     if (!groups.has(key)) groups.set(key, []);
     groups.get(key).push(i);
   }
@@ -439,7 +440,7 @@ function bind() {
     .forEach((el) => (el.onclick = () => editDecision(el.dataset.decision)));
   app.querySelector("[data-about]").onclick = () =>
     openDialog(
-      '<div class="eyebrow">Build Your Own Hub · 1.0.0</div><h2>A foundation for your own version.</h2><p class="dialog-body">This starter adapts the design and operating patterns of Craig’s Hub. The supplied people, messages, events, teams, and results are fictional. No accounts are connected and no automations are installed.</p><p class="dialog-body">Use the shared context and source code with your own ChatGPT or Codex. Personalize the design first, then connect and verify one source at a time.</p><p class="help">Preferences and meeting notes remain in this browser. The original kit is meant to be shared; keep your personalized, connected copy private.</p>',
+      '<div class="eyebrow">Build Your Own Hub · 1.1.0</div><h2>A foundation for your own version.</h2><p class="dialog-body">This starter adapts the design and operating patterns of Craig’s Hub. The supplied people, messages, events, teams, and results are fictional. No accounts are connected and no automations are installed.</p><p class="dialog-body">Use the shared context and source code with your own ChatGPT or Codex. Personalize the design first, then connect and verify one source at a time.</p><p class="help">Preferences and meeting notes remain in this browser. The original kit is meant to be shared; keep your personalized, connected copy private.</p>',
     );
   app.querySelector("#composer").onsubmit = (event) => {
     event.preventDefault();
@@ -455,7 +456,10 @@ function bind() {
           displayName: data.get("displayName"),
           hubName: data.get("hubName"),
           accent: data.get("accent"),
-          modules: ["briefing", ...data.getAll("modules")],
+          modules: retainModuleOrder(
+            state.preferences.modules,
+            data.getAll("modules"),
+          ),
         });
         if (
           save({ ...state, preferences }, "Preferences saved in this browser.")
@@ -474,7 +478,10 @@ function bind() {
           displayName: form.get("displayName"),
           hubName: form.get("hubName"),
           accent: form.get("accent"),
-          modules: ["briefing", ...form.getAll("modules")],
+          modules: retainModuleOrder(
+            state.preferences.modules,
+            form.getAll("modules"),
+          ),
         });
         download("hub-demo-preferences.json", {
           schemaVersion: 1,

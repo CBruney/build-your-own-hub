@@ -1,0 +1,30 @@
+{
+  "fictional": true,
+  "observedAt": "2026-09-22T07:00:00Z",
+  "timeZone": "Europe/London",
+  "calendarId": "example-calendar",
+  "coverage": {
+    "complete": true,
+    "windowStart": "2026-09-22",
+    "windowEndExclusive": "2026-10-06",
+    "allPagesRead": true
+  },
+  "events": [
+    {
+      "id": "example-review-20260922",
+      "title": "Fictional project review",
+      "summary": "Review the fictional draft and choose one next step.",
+      "start": "2026-09-22T09:05:00+01:00",
+      "end": "2026-09-22T09:30:00+01:00",
+      "url": ""
+    },
+    {
+      "id": "example-focus-day-20260922",
+      "title": "Fictional focus day",
+      "summary": "An example date-only event; no real calendar is connected.",
+      "startDate": "2026-09-22",
+      "endDateExclusive": "2026-09-23",
+      "url": ""
+    }
+  ]
+}

@@ -28,6 +28,8 @@ Optional external actions use a separate authorized action path.
 
 The demo is deliberately dependency-free at runtime. A team can move the UI into React or another stack without changing the observation and action contracts. The original installed Hub uses a larger frontend, worker, and native runtime. Copying that installation would carry household-specific readers, routes, IDs, and service assumptions. This kit extracts its reusable design and rules into a smaller working foundation.
 
+The exact field contract, runnable calendar example, and first connected-data transition are in [chapter 9](09-data-contract-and-worked-example.md). Operational state, recipe inputs, ownership, and recovery are in [chapter 10](10-install-operate-and-recover.md).
+
 ## Snapshot shape
 
 The example JSON contains `schemaVersion`, `mode`, `generatedAt`, `timeZone`, `sources`, and `items`. Every source has an ID, state, observation timestamp, freshness deadline, and detail. Every item has a stable ID, source ID, module, title, summary, and source URL if available. Type-specific optional fields include event times, next actions, original unread labels, publication times, and spoiler-protected details.

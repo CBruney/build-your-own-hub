@@ -44,7 +44,16 @@ assert.ok(html.includes("globalThis.HUB_DEMO_SNAPSHOT="));
 const files = [];
 async function walk(dir) {
   for (const entry of await readdir(dir, { withFileTypes: true })) {
-    if (entry.name === ".git") continue;
+    if (
+      [".git", "node_modules", "private", "state", "coverage"].includes(
+        entry.name,
+      ) ||
+      entry.name.startsWith(".env") ||
+      entry.name.endsWith(".log") ||
+      entry.name.endsWith(".private.json") ||
+      entry.name === "profile.local.json"
+    )
+      continue;
     const full = join(dir, entry.name);
     if (entry.isDirectory()) await walk(full);
     else files.push(full);
@@ -64,7 +73,7 @@ for (const path of files) {
       !pattern.test(body),
       `Private data pattern in ${path.slice(root.length)}`,
     );
-  if (path.endsWith(".md") && !path.endsWith("SHARED-CONTEXT.md"))
+  if (path.endsWith(".md"))
     for (const match of body.matchAll(/\]\(([^)]+)\)/g)) {
       const target = match[1];
       if (/^(https?:|#|mailto:)/.test(target)) continue;
@@ -78,5 +87,35 @@ assert.ok(
   "No project license requested.",
 );
 console.log(
-  `Verified ${files.length} files; 16 disabled recipes; offline preview; local links; privacy patterns; no project license.`,
+  `Verified ${files.length} distributable files (private working state excluded); 16 disabled recipes; offline preview; local links; privacy patterns; no project license.`,
+);
+
+const shared = await read("SHARED-CONTEXT.md");
+const anchors = new Set(
+  [...shared.matchAll(/<a id="([^"]+)"><\/a>/g)].map((m) => m[1]),
+);
+for (const match of shared.matchAll(/\]\(#(file-[^)]+)\)/g))
+  assert.ok(
+    anchors.has(match[1]),
+    `Missing combined guide anchor: ${match[1]}`,
+  );
+for (const name of [
+  "profile",
+  "source-inventory",
+  "automation-plan",
+  "run-receipt",
+]) {
+  JSON.parse(await read(`config/${name}.example.json`));
+  assert.ok(shared.includes(`SOURCE FILE: config/${name}.example.json`));
+}
+assert.ok(shared.includes("SOURCE FILE: examples/calendar-adapter.mjs"));
+assert.ok(shared.includes("SOURCE FILE: AGENTS.md"));
+for (const recipe of catalog.recipes)
+  assert.ok(
+    (await read(`automations/${recipe.promptFile}`)).includes(
+      "10-install-operate-and-recover.md",
+    ),
+  );
+console.log(
+  "Verified standalone guide anchors, embedded configuration, adapter example, and recipe setup references.",
 );

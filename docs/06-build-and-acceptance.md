@@ -8,13 +8,13 @@ The first finished result is a personalized demonstration. It must still say it 
 
 ## Stage 2: Add one read-only source
 
-Select the source with the clearest benefit and available access, usually one calendar or mailbox. Follow the adapter steps in chapter 4. Preserve the original source timestamp, show coverage, and click through to the actual record. Test success, empty response, partial response, expired authorization, and malformed data.
+First select a minimal private destination and verify that this environment can write and read it: a private file or retained project artifact suffices. Keep the public demo and release files fictional. Then select the source with the clearest benefit and available access, usually one calendar or mailbox. Follow the adapter steps in chapter 4. Preserve the original source timestamp, show coverage, and click through to the actual record. Test success, empty response, partial response, expired authorization, and malformed data.
 
 If working only in ChatGPT Work on the web, the first source output can be a retained briefing or structured file. A separately hosted dashboard is optional. Do not promise access to a local folder from a web task.
 
 ## Stage 3: Add private persistence
 
-Choose durable storage and authentication appropriate to the owner's environment. Keep secrets in the runtime's secret store and use scoped credentials. Implement revision-aware preferences and immutable reports. Verify cross-device readback only if that behavior is part of the build. A browser-storage demo does not establish shared persistence.
+Replace the manual-stage artifact path with persistent storage and a UI loader if you want an automatically connected dashboard. Remove the demo fallback from that connected reader. Choose durable storage and authentication appropriate to the owner's environment. Keep secrets in the runtime's secret store and use scoped credentials. Implement revision-aware preferences and immutable reports. Verify cross-device readback only if that behavior is part of the build. A browser-storage demo does not establish shared persistence.
 
 ## Stage 4: Schedule one useful update
 
@@ -33,7 +33,7 @@ Add the next module and source, preserving the existing data and history. Introd
 | Source connection | Fresh read with account and source coverage | Scheduled execution |
 | Publication | Accepted object ID/version/hash | Visible content is correct |
 | Readback | Exact returned object and visible UI | Future unattended reliability |
-| Scheduled execution | Three distinct eligible runs with complete receipts | Permanent reliability |
+| Scheduled execution | Three distinct eligible runs with outcome-appropriate receipts (chapter 10) | Permanent reliability |
 | Email | Exact Sent content and recipient | Recipient opened or read it |
 | Shared artifact | Permission readback; public starter readable, private Hub rejects unauthorized users | Every colleague's enterprise connector can fetch it |
 

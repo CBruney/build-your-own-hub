@@ -53,7 +53,7 @@ def start(number, eyebrow, title, subtitle=None):
     C.line(54, 682, 558, 682)
     C.setFont("Helvetica", 8)
     C.setFillColor(MUTED)
-    C.drawString(54, 31, "BUILD YOUR OWN HUB  /  1.0.0  /  SEPTEMBER 22, 2026")
+    C.drawString(54, 31, "BUILD YOUR OWN HUB  /  1.1.0  /  SEPTEMBER 22, 2026")
     C.drawRightString(558, 31, str(number))
     return text(subtitle, 663) if subtitle else 663
 
@@ -83,7 +83,7 @@ C.showPage()
 y = start(2, "Begin with choices", "Give your assistant a useful brief.")
 y = section("1. Read the shared context", "Download <b>SHARED-CONTEXT.md</b> from the repository. Add it to your own chat or project, then paste <b>START-PROMPT.md</b>. Ask the assistant to list the files it actually read. Attach the file if it cannot open the link.", y)
 y = section("2. Pick the first version", "Choose the sections that would help most: an agenda, messages, deliveries, reading, sports, ideas, or shared decisions. A small useful Hub is a good first release. You can add more later.", y)
-y = section("3. Record your preferences", "Name the Hub; choose your time zone, people, interests, accent, and section order. Use <b>config/profile.example.json</b> as the fuller profile. The demo's export contains only its display settings.", y)
+y = section("3. Record your preferences", "Name the Hub; choose your time zone, people, interests, accent, and section order. Use <b>config/profile.example.json</b> as the fuller build profile. It is not automatically loaded by the demo; the demo export contains display settings only.", y)
 y = section("4. Confirm the actual tools", "Ask the assistant which accounts, files, browser access, coding tools, and scheduling capabilities are available in that environment. A feature described in this kit does not establish access in your session.", y)
 y = text("<b>A prompt you can use now</b>", y)
 y = text("Read the attached Build Your Own Hub context. Help me choose the smallest useful version for my life. Ask about my priorities, sources, visual preferences, and desired actions. Then build a fictional preview with the tools actually available here. Keep real connections and scheduling as explicit, verified steps.", y, size=11, leading=16)
@@ -116,7 +116,7 @@ text("The starter includes validation, merge, freshness, and first-attempt deliv
 C.showPage()
 
 y = start(5, "16 reusable recipes", "Choose a few. Configure them well.",
-          "Every recipe is disabled in the original catalog. Each has a complete prompt and shares an operating contract. Cadences are examples for you to change.")
+          "Every recipe is disabled in the original catalog. Each has a reusable prompt, required setup inputs, and a shared operating contract. Cadences are examples for you to change.")
 groups = [
     ("Keep the page current", ["Coordinate selected source updates", "Refresh the agenda", "Refresh messages and concrete follow-ups", "Track identifiable packages", "Refresh selected newsletter editions"]),
     ("Follow your interests", ["Prepare a daily interest briefing", "Prepare a game or event preview", "Prepare a spoiler-controlled recap", "Find a few good things to do"]),
@@ -132,14 +132,14 @@ text("Assign one scheduling owner per source. Choose time zone, quiet hours, sou
 C.showPage()
 
 y = start(6, "Build and share", "A clear path from demo to daily use.")
-y = section("Try it without installing packages", f'Download and extract the <link href="{REPO}/releases/tag/v1.0.0" color="#805207">release ZIP</link>. Open <b>preview.html</b> in a browser that permits local HTML files. It embeds the example data, code, and fonts. You can also use the <link href="https://cbruney.github.io/build-your-own-hub/" color="#805207">public fictional demo</link> or run the local development server.', y)
+y = section("Try it without installing packages", f'Download and extract the <link href="{REPO}/releases/tag/v1.1.0" color="#805207">release ZIP</link>. Open <b>preview.html</b> in a browser that permits local HTML files. It embeds the example data, code, and fonts. You can also use the <link href="https://cbruney.github.io/build-your-own-hub/" color="#805207">public fictional demo</link> or run the local development server.', y)
 y = section("Work from source", "With Node.js 22 or later, open a terminal in the folder containing <b>package.json</b> and run:", y)
 for line in ["npm test", "npm run build", "npm run verify", "npm start"]:
     y = text(line, y + 4, size=11, leading=16)
 y = text("Open <b>http://127.0.0.1:4173</b>. No npm install is needed. Stop the server with Ctrl+C. Keep your own personalized source copy private.", y)
-y = section("Connect one source at a time", "Use your own authorized account access. Add private storage, validate the source observation, and check the published result. Then install and test the chosen schedule in its real execution environment.", y)
+y = section("Connect one source at a time", "Choose a private output destination before reading one authorized source. Chapter 9 gives the exact data contract and a runnable fictional adapter; chapter 10 covers source ownership, installation, receipts, and recovery. Add persistent UI loading before claiming a live dashboard.", y)
 y = section("Hand it to the next person", "Share the original repository or release ZIP, the shared context, and the starting prompt. The screenshot tour shows the design without disclosing anyone's real messages or calendar.", y)
-y = text("<b>Before calling your own build ready:</b> record what passed, what is partial, what is untested, and how to recover. The included release checks distinguish local tests and browser evidence from live-service operation.", y)
+y = text("<b>Before calling your own build ready:</b> record what passed, what is partial, what is untested, and how to recover. The expanded shared context answers setup and maintenance questions; release checks distinguish local evidence from live-service operation.", y)
 y = text("No project license file is included. Keep the bundled font notices. This is a personal project starter, not an official OpenAI product or supported integration bundle.", y, size=9, leading=13, color=MUTED)
 text(f'<link href="{REPO}" color="#805207">{REPO}</link>', y, size=10)
 C.save()

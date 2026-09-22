@@ -47,3 +47,9 @@ The tablet keeps the agenda and decisions together. The phone stacks the content
 | ![Phone briefing](briefing-mobile.png) | ![Phone message cards](messages-mobile.png) |
 
 Run the demo to inspect the full pages and interaction states. Screenshots do not establish screen-reader support, native-device acceptance, or real source connectivity.
+
+## Follow a complete fictional data example
+
+This additional capture is from version 1.1.0 at 1280 × 1000. It shows the two calendar records produced by `npm run example:adapter`, imported through Connections: one timed event and one all-day event. Other source collections remain empty. Reload restores the original demo.
+
+![Fictional calendar adapter output in the running Hub](calendar-adapter-desktop.png)

@@ -29,7 +29,7 @@ This matrix specifies how to evaluate an integration; it does not assert that ev
 
 ## Build one adapter
 
-1. Identify the exact account and selected source records. Save no credentials in the profile.
+1. Choose a minimal private destination for the candidate and receipt before collecting real data; a private local file or retained private project artifact is enough for this manual stage. Identify the exact account and selected source records. Save no credentials in the profile.
 2. Read a small representative sample through the supported connector or direct API.
 3. Normalize it into the snapshot contract. Preserve IDs, original timestamps, and unread indicators.
 4. Validate the candidate. Treat missing required fields as a limitation or rejection, not a reason to invent values.
@@ -37,7 +37,7 @@ This matrix specifies how to evaluate an integration; it does not assert that ev
 6. Display it and click its actual source link. Check empty and failed states.
 7. Only then define its scheduled owner, cadence, quiet hours, and notification behavior.
 
-The kit does not ship connector wrappers because authentication and available tools must be established in the recipient's own environment. Use the prompt recipes as instructions to that recipient's assistant; use the JSON model as the application boundary.
+Chapter 9 supplies the exact JSON fields and a runnable fictional adapter that validates, saves, and reads back a snapshot. Chapter 10 explains ownership and the records a real job must retain. The kit does not ship connector wrappers because authentication and available tools must be established in the recipient's own environment. Use the prompt recipes as instructions to that recipient's assistant; use the JSON model as the application boundary.
 
 ## Browser rules
 

@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "note": "Fictional planning example. No connection or schedule is installed.",
+  "sources": [
+    {
+      "id": "calendar-personal",
+      "provider": "chosen_calendar_service",
+      "accountAlias": "my-personal-account",
+      "scope": "One owner-selected calendar, today through 14 local days ahead",
+      "permission": "read_only",
+      "collectorOwner": "agenda",
+      "readerAvailable": false,
+      "privateDestination": null,
+      "freshnessMinutes": 120,
+      "completenessRule": "All selected calendars and all result pages read for the stated date window",
+      "dependentRecipes": ["family-meeting", "family-idea"],
+      "status": "not_connected"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "note": "Planning record only. Creating this file installs nothing.",
+  "recipeId": "agenda",
+  "enabled": false,
+  "ownerNamespace": "example-owner",
+  "sourceIds": ["calendar-personal"],
+  "executionSurface": "choose_web_or_local",
+  "sourceOwnership": "individual_recipe",
+  "timeZone": "Europe/London",
+  "scheduleDescription": "Example: weekdays at 08:00 local time",
+  "quietHours": [{"start": "20:30", "end": "07:00"}],
+  "destinationAlias": null,
+  "externalActions": [],
+  "notificationPolicy": "meaningful_changes",
+  "installedTaskId": null,
+  "manualReadVerified": false,
+  "privatePublicationVerified": false,
+  "scheduledEvidence": [],
+  "stopCondition": "Pause if scope or permissions change; retain the last verified snapshot"
+}
