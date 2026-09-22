@@ -1,0 +1,11 @@
+node_modules/
+.env
+.env.*
+!.env.example
+.DS_Store
+private/
+state/
+coverage/
+*.log
+config/profile.local.json
+fixtures/*.private.json

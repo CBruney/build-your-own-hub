@@ -1,0 +1,14 @@
+{
+  "name": "build-your-own-hub",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "A portable personal Hub starter with fictional data, design guidance, and automation recipes.",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "start": "node scripts/server.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "build": "node scripts/build.mjs",
+    "verify": "node scripts/verify.mjs"
+  }
+}

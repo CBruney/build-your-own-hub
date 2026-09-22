@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "displayName": "Taylor",
+  "hubName": "My Hub",
+  "timeZone": "America/Los_Angeles",
+  "locale": "en-US",
+  "accent": "gold",
+  "modules": ["briefing", "agenda", "messages", "deliveries", "newsletters", "sports", "radar", "meeting"],
+  "people": [],
+  "interests": [],
+  "teams": [],
+  "publications": [],
+  "sourceAccounts": [],
+  "quietHours": [{ "start": "21:00", "end": "06:00" }],
+  "notifications": { "mode": "meaningful_changes", "destinations": [] },
+  "authorization": { "sourceReads": [], "outboundActions": [], "homeControls": [] },
+  "deployment": { "mode": "demo", "privateStorage": null, "host": null }
+}
