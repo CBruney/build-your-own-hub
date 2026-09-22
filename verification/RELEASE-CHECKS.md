@@ -42,7 +42,9 @@ The six-page PDF guide was rendered and visually reviewed on every page. The sta
 
 The public package was assembled separately from the personal Hub. It contains fictional fixtures, generic configuration, documentation, source code, fonts with their notices, and release artifacts. It does not contain the creator's account access, private source snapshots, scheduler identifiers, private deployment settings, or original screenshots.
 
-There is no project license file. Third-party font licenses remain with their assets. The source repository's public visibility, release download, shared-context link, and demonstration page must be checked after publication; a local build alone does not prove those links work.
+There is no project license file. Third-party font licenses remain with their assets. GitHub confirmed that [the repository](https://github.com/CBruney/build-your-own-hub) is public. The first published source commit passed [both Node.js CI jobs](https://github.com/CBruney/build-your-own-hub/actions/runs/35738196593) and [GitHub Pages deployment](https://github.com/CBruney/build-your-own-hub/actions/runs/35738249168). The [public demonstration](https://cbruney.github.io/build-your-own-hub/) was opened in the browser and its fictional briefing read back. The generated standalone bundle ran on that HTTPS page; direct local-file execution remains subject to the separate limit above.
+
+The release notes record final distribution checks. A successful local build or CI run alone does not prove that a release download is accessible or intact.
 
 ## Limits
 

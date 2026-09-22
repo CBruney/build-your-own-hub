@@ -132,7 +132,7 @@ text("Assign one scheduling owner per source. Choose time zone, quiet hours, sou
 C.showPage()
 
 y = start(6, "Build and share", "A clear path from demo to daily use.")
-y = section("Try it without installing packages", "Download and extract the release ZIP. Open <b>preview.html</b> in a browser that permits local HTML files. It embeds the example data, code, and fonts. If your environment blocks local files, use the public fictional demo or run the local development server.", y)
+y = section("Try it without installing packages", f'Download and extract the <link href="{REPO}/releases/tag/v1.0.0" color="#805207">release ZIP</link>. Open <b>preview.html</b> in a browser that permits local HTML files. It embeds the example data, code, and fonts. You can also use the <link href="https://cbruney.github.io/build-your-own-hub/" color="#805207">public fictional demo</link> or run the local development server.', y)
 y = section("Work from source", "With Node.js 22 or later, open a terminal in the folder containing <b>package.json</b> and run:", y)
 for line in ["npm test", "npm run build", "npm run verify", "npm start"]:
     y = text(line, y + 4, size=11, leading=16)

@@ -6,6 +6,8 @@ A personal dashboard and automation starter, adapted from Craig's Hub.
 
 [Shared context](SHARED-CONTEXT.md) · [Starting prompt](START-PROMPT.md) · [Visual guide (PDF)](output/pdf/Build-Your-Own-Hub-Guide.pdf) · [Screenshot tour](docs/screenshots/README.md)
 
+**[Try the public fictional demo](https://cbruney.github.io/build-your-own-hub/)** · **[Download the complete v1.0.0 kit](https://github.com/CBruney/build-your-own-hub/releases/tag/v1.0.0)**
+
 ![The fictional Hub briefing on desktop](docs/screenshots/briefing-desktop.png)
 
 ## Three ways to start
@@ -54,5 +56,9 @@ The demo includes Briefing, Agenda, Needs You, Messages, Deliveries, Newsletters
 Share this original starter and its fictional examples. Keep your own connected copy private. Before forwarding a customized copy, remove personal profiles, source snapshots, notes, history, credentials, and screenshots that reveal real information. The recipient supplies their own authorization; the kit does not transfer anyone else's account access or approvals.
 
 No project license file is included, as requested by the creator. The bundled fonts retain their own license notices. See [contribution guidance](CONTRIBUTING.md) before sending changes or issues.
+
+## Maintain your copy
+
+Run `npm test`, `npm run build`, and `npm run verify` after changes. The build refreshes the standalone demo and shared context from their source files. GitHub Actions runs the same checks on Node.js 22 and 24. The optional PDF generator, `python3 scripts/build-guide.py`, needs ReportLab and Pillow; those packages are not needed to use or build the application.
 
 Version 1.0.0. Prepared September 22, 2026. This is a personal project starter, not an official OpenAI product or supported integration bundle.
